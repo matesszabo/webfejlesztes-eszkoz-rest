@@ -23,6 +23,10 @@ public class EszkozEntity {
     @Column(name = "jelleg")
     private String jelleg;
 
+    @ManyToOne
+    @JoinColumn(name = "tulajdonos", nullable = true)
+    private TulajdonosEntity tulajdonos;
+
     @Override
     public String toString() {
         return "EszkozEntity{" +
@@ -103,5 +107,22 @@ public class EszkozEntity {
     }
 
     public EszkozEntity() {
+    }
+
+    public TulajdonosEntity getTulajdonos() {
+        return tulajdonos;
+    }
+
+    public EszkozEntity(long id, String marka, String tipus, String leiras, String jelleg, TulajdonosEntity tulajdonos) {
+        this.id = id;
+        this.marka = marka;
+        this.tipus = tipus;
+        this.leiras = leiras;
+        this.jelleg = jelleg;
+        this.tulajdonos = tulajdonos;
+    }
+
+    public void setTulajdonos(TulajdonosEntity tulajdonos) {
+        this.tulajdonos = tulajdonos;
     }
 }

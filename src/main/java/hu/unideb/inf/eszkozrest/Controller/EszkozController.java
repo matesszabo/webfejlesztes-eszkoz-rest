@@ -5,10 +5,7 @@ import hu.unideb.inf.eszkozrest.Repository.EszkozRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +25,7 @@ public class EszkozController {
                 , HttpStatus.OK);
     }
 
-    @PostMapping("/eszkoz")
+    @PostMapping("/eszkozInit")
     public ResponseEntity<List<EszkozEntity>> saveEszkozok() {
         List<EszkozEntity> eszkozok = Arrays.asList(
                 new EszkozEntity("Huawei", "Nova 5", "fehér telefon", "telefon"),
@@ -41,6 +38,7 @@ public class EszkozController {
     @GetMapping("/eszkozok")
     public ResponseEntity<List<EszkozEntity>> getEszkozok() {
         try {
+            //return new ResponseEntity<>(eszkozRepository.findAll(),HttpStatus.OK);
             List<EszkozEntity> eszkozok = eszkozRepository.findAll();
             if (eszkozok.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -51,6 +49,28 @@ public class EszkozController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    @PostMapping("/eszkoz")
+    public ResponseEntity<EszkozEntity> saveEszkoz(@RequestBody EszkozEntity eszkoz) {
+        return new ResponseEntity<>(eszkozRepository.save(eszkoz), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/eszkoz")
+    public ResponseEntity deleteEszkoz(@RequestParam(required = true) long id) {
+        eszkozRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/eszkoz")
+    public ResponseEntity<EszkozEntity> updateEszkoz(@RequestBody EszkozEntity eszkoz, @RequestParam long id) {
+        EszkozEntity eszkozEntity = eszkozRepository.getReferenceById(id);
+        eszkozEntity.setMarka(eszkoz.getMarka());
+        eszkozEntity.setTipus(eszkoz.getTipus());
+        eszkozEntity.setLeiras(eszkoz.getLeiras());
+        eszkozEntity.setJelleg(eszkoz.getJelleg());
+
+        return new ResponseEntity<>(eszkozRepository.save(eszkozEntity), HttpStatus.CREATED);
     }
 
 
