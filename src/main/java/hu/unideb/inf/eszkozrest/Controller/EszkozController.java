@@ -1,7 +1,9 @@
 package hu.unideb.inf.eszkozrest.Controller;
 
+import hu.unideb.inf.eszkozrest.Dto.EszkozDto;
 import hu.unideb.inf.eszkozrest.Entity.EszkozEntity;
 import hu.unideb.inf.eszkozrest.Repository.EszkozRepository;
+import hu.unideb.inf.eszkozrest.Service.EszkozService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +19,14 @@ public class EszkozController {
     @Autowired
     EszkozRepository eszkozRepository;
 
+    @Autowired
+    EszkozService eszkozService;
+
     @GetMapping("/eszkoz")
-    public ResponseEntity<EszkozEntity> getEszkoz() {
+    public ResponseEntity<EszkozDto> getEszkoz(@RequestParam long id) {
         return new ResponseEntity<>(
-                new EszkozEntity(1, "Samsung", "Tab S6",
-                        "piros tablet", "tablet")
+                eszkozService.findById(id)
+                //eszkozRepository.findById(id).get()
                 , HttpStatus.OK);
     }
 
