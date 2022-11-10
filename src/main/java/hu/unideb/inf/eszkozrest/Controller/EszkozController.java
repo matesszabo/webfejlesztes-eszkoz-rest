@@ -2,7 +2,6 @@ package hu.unideb.inf.eszkozrest.Controller;
 
 import hu.unideb.inf.eszkozrest.Dto.EszkozDto;
 import hu.unideb.inf.eszkozrest.Entity.EszkozEntity;
-import hu.unideb.inf.eszkozrest.Repository.EszkozRepository;
 import hu.unideb.inf.eszkozrest.Service.EszkozService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,6 @@ import java.util.List;
 public class EszkozController {
 
     @Autowired
-    EszkozRepository eszkozRepository;
-
-    @Autowired
     EszkozService eszkozService;
 
     @GetMapping("/eszkoz")
@@ -31,13 +27,13 @@ public class EszkozController {
     }
 
     @PostMapping("/eszkozInit")
-    public ResponseEntity<List<EszkozEntity>> saveEszkozok() {
-        List<EszkozEntity> eszkozok = Arrays.asList(
-                new EszkozEntity("Huawei", "Nova 5", "fehér telefon", "telefon"),
-                new EszkozEntity("Huawei", "MatePad 11", "betört kijelző", "tablet"),
-                new EszkozEntity("Apple", "iPhone XS", "akkumulátor probléma", "telefon")
+    public ResponseEntity<List<EszkozDto>> saveEszkozok() {
+        List<EszkozDto> eszkozok = Arrays.asList(
+                new EszkozDto("Huawei", "Nova 5", "fehér telefon", "telefon", null),
+                new EszkozDto("Huawei", "MatePad 11", "betört kijelző", "tablet", null),
+                new EszkozDto("Apple", "iPhone XS", "akkumulátor probléma", "telefon", null)
         );
-        return new ResponseEntity<>(eszkozRepository.saveAll(eszkozok), HttpStatus.CREATED);
+        return new ResponseEntity<>(eszkozService.saveAll(eszkozok), HttpStatus.CREATED);
     }
 
     @GetMapping("/eszkozok")
