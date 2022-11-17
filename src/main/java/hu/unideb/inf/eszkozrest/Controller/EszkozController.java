@@ -2,6 +2,7 @@ package hu.unideb.inf.eszkozrest.Controller;
 
 import hu.unideb.inf.eszkozrest.Dto.EszkozDto;
 import hu.unideb.inf.eszkozrest.Entity.EszkozEntity;
+import hu.unideb.inf.eszkozrest.Repository.EszkozRepository;
 import hu.unideb.inf.eszkozrest.Service.EszkozService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ public class EszkozController {
 
     @Autowired
     EszkozService eszkozService;
+
+    @Autowired
+    EszkozRepository eszkozRepository;
 
     @GetMapping("/eszkoz")
     public ResponseEntity<EszkozDto> getEszkoz(@RequestParam long id) {
@@ -37,10 +41,10 @@ public class EszkozController {
     }
 
     @GetMapping("/eszkozok")
-    public ResponseEntity<List<EszkozEntity>> getEszkozok() {
+    public ResponseEntity<List<EszkozDto>> getEszkozok() {
         try {
             //return new ResponseEntity<>(eszkozRepository.findAll(),HttpStatus.OK);
-            List<EszkozEntity> eszkozok = eszkozRepository.findAll();
+            List<EszkozDto> eszkozok = eszkozService.listAll();
             if (eszkozok.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
