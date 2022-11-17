@@ -78,5 +78,10 @@ public class EszkozController {
         return new ResponseEntity<>(eszkozRepository.save(eszkozEntity), HttpStatus.CREATED);
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity logout() {
+        return null;
+    }
+
 
 }
