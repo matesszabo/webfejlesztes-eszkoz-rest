@@ -22,6 +22,9 @@ public class EszkozServiceImpl implements EszkozService {
 
     @Override
     public List<EszkozDto> saveAll(List<EszkozDto> list) {
+        for (EszkozDto eszkozDto : list) {
+            eszkozRepository.save(modelMapper.map(eszkozDto, EszkozEntity.class));
+        }
         return null;
     }
 
